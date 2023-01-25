@@ -57,15 +57,23 @@ keywords = ["sample", "setuptools", "development"]  # Optional
 # authored the project, and a valid email address corresponding to the name
 # listed.
 authors = [
-  {name = "A. Random Developer", email = "author@example.com" } # Optional
+  {name = "{{ cookiecutter.full_name }}", email = "{{ cookiecutter.email }}" } # Optional
 ]
 
 # This should be your name or the names of the organization who currently
 # maintains the project, and a valid email address corresponding to the name
 # listed.
 maintainers = [
-  {name = "A. Great Maintainer", email = "maintainer@example.com" } # Optional
+  {name = "{{ cookiecutter.full_name }}", email = "{{ cookiecutter.email }}" } # Optional
 ]
+
+{%- set license_classifiers = {
+    'MIT license': 'License :: OSI Approved :: MIT License',
+    'BSD license': 'License :: OSI Approved :: BSD License',
+    'ISC license': 'License :: OSI Approved :: ISC License (ISCL)',
+    'Apache Software License 2.0': 'License :: OSI Approved :: Apache Software License',
+    'GNU General Public License v3': 'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'
+} %}
 
 # Classifiers help users find your project by categorizing it.
 #
@@ -75,25 +83,29 @@ classifiers = [  # Optional
   #   3 - Alpha
   #   4 - Beta
   #   5 - Production/Stable
-  "Development Status :: 3 - Alpha",
+  {{ cookiecutter.release_status }},
 
   # Indicate who your project is intended for
-  "Intended Audience :: Developers",
-  "Topic :: Software Development :: Build Tools",
+{%- for audience_item in cookiecutter.classifiers.audience %}
+  "{{ audience_item }}",
+{%- endfor %}
+{%- for os_item in cookiecutter.classifiers.os %}
+  "{{ os_item }}",
+{%- endfor %}
+{%- for topic_item in cookiecutter.classifiers.topic %}
+  "{{ topic_item }}",
+{%- endfor %}
 
   # Pick your license as you wish
-  "License :: OSI Approved :: MIT License",
+  "{{ license_classifiers[cookiecutter.open_source_license] }}",
 
   # Specify the Python versions you support here. In particular, ensure
   # that you indicate you support Python 3. These classifiers are *not*
   # checked by "pip install". See instead "python_requires" below.
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python",
+{%- for py_version_item in cookiecutter.classifiers.python_versions %}
+  "Programming Language :: Python :: {{ py_version_item }}",
+{%- endfor %}
 ]
 
 # This field lists other packages that your project depends on to run.
@@ -103,20 +115,27 @@ classifiers = [  # Optional
 # For an analysis of this field vs pip's requirements files see:
 # https://packaging.python.org/discussions/install-requires-vs-requirements/
 dependencies = [ # Optional
-  "peppercorn"
+{%- if cookiecutter.command_line_interface | lower == 'click' %}  'Click>=8.0,{%- endif%}'
 ]
 
 # List additional groups of dependencies here (e.g. development
 # dependencies). Users will be able to install these using the "extras"
 # syntax, for example:
 #
-#   $ pip install sampleproject[dev]
+#   $ pip install {{ cookiecutter.repository_name }}[dev]
 #
 # Similar to `dependencies` above, these must be valid existing
 # projects.
 [project.optional-dependencies] # Optional
-dev = ["check-manifest"]
-test = ["coverage"]
+dev = [
+{%- if cookiecutter.use_coverage != "n" %}  "coverage",{%- endif%}
+{%- if cookiecutter.use_pytest != "n" %}  "pytest",{%- endif%}
+  "pre-commit"
+]
+test = [
+{%- if cookiecutter.use_coverage != "n" %}  "coverage",{%- endif%}
+{%- if cookiecutter.use_pytest != "n" %}  "pytest",{%- endif%}
+]
 
 # List URLs that are relevant to your project
 #
@@ -129,16 +148,18 @@ test = ["coverage"]
 # maintainers, and where to support the project financially. The key is
 # what's used to render the link text on PyPI.
 [project.urls]  # Optional
-"Homepage" = "https://github.com/pypa/sampleproject"
-"Bug Reports" = "https://github.com/pypa/sampleproject/issues"
-"Funding" = "https://donate.pypi.org"
-"Say Thanks!" = "http://saythanks.io/to/example"
-"Source" = "https://github.com/pypa/sampleproject/"
+"Homepage" = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repository_name }}"
+"Bug Reports" = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repository_name }}/issues"
+# "Funding" = "https://donate.pypi.org"
+# "Say Thanks!" = "http://saythanks.io/to/example"
+"Source" = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repository_name }}"
 
 # The following would provide a command line executable called `sample`
 # which executes the function `main` from this package when invoked.
 [project.scripts]  # Optional
-sample = "sample:main"
+{%- if 'n' not in cookiecutter.command_line_interface|lower %}
+'{{ cookiecutter.package_name }} = {{ cookiecutter.package_name }}.cli:main'
+{%- endif %}
 
 # This is configuration specific to the `setuptools` build backend.
 # If you are using a different build backend, you will need to change this.
