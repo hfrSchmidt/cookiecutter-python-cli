@@ -161,6 +161,48 @@ test = [
 '{{ cookiecutter.package_name }} = {{ cookiecutter.package_name }}.cli:main'
 {%- endif %}
 
+# The next lines represent the tox configuration as an inline .ini file
+[tool.tox]
+legacy_tox_ini = """
+  [tox]
+  requires =
+    tox>4
+    virtualenv>20.2
+  min_version = 4.0
+  env_list =
+{% set _min_minor_version = min_python_version | replace('3.', '') %}
+{% set _max_minor_version = max_python_version | replace('3.', '') %}
+{%- for minor_version range(_min_minor_version, _max_minor_version)%}
+    py3{{ minor_version }}
+{%- endfor %}
+{%- if cookiecutter.use_coverage != "n" %}    coverage{%- endif%}
+
+{%- if cookiecutter.use_pytest != "n" %}
+  [testenv]
+  description = run unit tests
+  deps = 
+    pytest
+  commands = pytest tests { posargs }
+
+{%- if cookiecutter.use_coverage != "n" %}
+  [coverage]
+  description = run test coverage analysis
+  deps = 
+    pytest
+    pytest-cov
+  commands = 
+    pytest --cov --cov-append --cov-report=term-missing
+  
+  [coverage:clean]
+  description = remove coverage reports
+  deps = coverage
+  skip_install = true
+  commands = coverage erase
+{%- endif%}
+"""
+{%- endif%}
+
+
 # This is configuration specific to the `setuptools` build backend.
 # If you are using a different build backend, you will need to change this.
 [tool.setuptools]
