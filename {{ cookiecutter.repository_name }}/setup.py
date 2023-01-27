@@ -23,10 +23,6 @@ readme_filename = os.path.join(package_root, "README.rst")
 with io.open(readme_filename, encoding="utf-8") as readme_file:
     readme = readme_file.read()
 
-history_filename = os.path.join(package_root, "HISTORY.rst")
-with io.open(history_filename, encoding="utf-8") as history_file:
-    history = history_file.read()
-
 # Only include packages under the '{{ cookiecutter.package_name }}' namespace. Do not include tests,
 # benchmarks, etc.
 packages = [
