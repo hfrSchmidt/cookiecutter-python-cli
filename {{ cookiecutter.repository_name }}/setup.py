@@ -36,7 +36,7 @@ packages = [
 # Determine which namespaces are needed, when namespaced packages are supposed to be used
 # namespaces = ["{{ cookiecutter.package_name }}"]
 # if "{{ cookiecutter.package_name }}.<namespace>" in packages:
-#     namespaces.append("{{ cookiecutter.packe_name }}.<namespace>")
+#     namespaces.append("{{ cookiecutter.package_name }}.<namespace>")
 
 setuptools.setup(
     name="{{ cookiecutter.repository_name }}",
