@@ -14,6 +14,7 @@
   "use_coverage": "y",
   "use_black": "y",
   "use_tox": "y",
+  "cicd_tool": ["github-actions", "None"],
   "command_line_interface": ["Click", "No command-line interface"],
   "create_author_file": "y",
   "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Not open source"],

@@ -177,6 +177,14 @@ legacy_tox_ini = """
 {%- endfor %}
 {%- if cookiecutter.use_coverage != "n" %}    coverage{%- endif%}
 
+{%- if cookiecutter.cicd_tool == "github-actions" %}
+  [gh-actions]
+  python =
+{%- for minor_version in range(_min_minor_version, _max_minor_version) %}
+    3.{{ minor_version }}: py3{{ minor_version }}{%- if cookiecutter.use_coverage !="n" %}, coverage{%- endif%}
+{%- endfor%}
+{%- endif%}
+
 {%- if cookiecutter.use_pytest != "n" %}
   [testenv]
   description = run unit tests

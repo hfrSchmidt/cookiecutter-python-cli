@@ -1,0 +1,43 @@
+name: test
+
+on:
+  pull_request:
+    branches: [ "master", "main" ]
+    paths-ignore: [ "docs/**" ]
+
+  push:
+    branches: [ "master", "main" ]
+    paths-ignore: [ "docs/**" ]
+
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python_version: [
+{%- set _min_minor_version = min_python_version | replace('3.', '') %}
+{%- set _max_minor_version = max_python_version | replace('3.', '') %}
+{%- for minor_version in range(_min_minor_version, _max_minor_version) %}
+          '3.{{ minor_version }}'{%- if minor_version != _max_minor_version%},{%- endif %}
+{%- endfor %}
+        ]
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python_version }}
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install tox tox-gh-actions
+      
+      - name: Run tox
+        run: tox
