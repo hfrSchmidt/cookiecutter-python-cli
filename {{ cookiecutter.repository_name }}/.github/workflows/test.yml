@@ -10,7 +10,7 @@ on:
     paths-ignore: [ "docs/**" ]
 
 concurrency:
-  group: ${{ github.head_ref || github.run_id }}
+  group: {% raw %}${{ github.head_ref || github.run_id }} {% endraw %}
   cancel-in-progress: true
 
 jobs:
@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python_version }}
+          python-version: {% raw %}${{ matrix.python_version }} {% endraw %}
       
       - name: Install dependencies
         run: |

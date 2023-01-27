@@ -24,7 +24,7 @@ jobs:
       - name: create a pull request
         uses: peter-evans/create-pull-request@v4
         with:
-          token: "${{ secrets.GITHUB_TOKEN }}"
+          token: {% raw %}"${{ secrets.GITHUB_TOKEN }}" {% endraw%}
           commit-message: "chore(dep): Auto-update pre-commit"
           branch: update/pre-commit
           body: |
