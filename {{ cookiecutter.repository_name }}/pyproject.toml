@@ -32,7 +32,7 @@ description = "{{ cookiecutter.project_short_description }}"  # Optional
 #
 # This field corresponds to the "Description" metadata field:
 # https://packaging.python.org/specifications/core-metadata/#description-optional
-readme = { file = "README.rst" } # Optional
+readme = "README.rst"  # Optional
 
 # Specify which Python versions you support. In contrast to the
 # 'Programming Language' classifiers above, 'pip install' will check this
@@ -83,7 +83,7 @@ classifiers = [  # Optional
   #   3 - Alpha
   #   4 - Beta
   #   5 - Production/Stable
-  {{ cookiecutter.release_status }},
+  "{{ cookiecutter.release_status }}",
 
   # Indicate who your project is intended for
 {%- for audience_item in cookiecutter.classifiers.audience %}
@@ -115,7 +115,7 @@ classifiers = [  # Optional
 # For an analysis of this field vs pip's requirements files see:
 # https://packaging.python.org/discussions/install-requires-vs-requirements/
 dependencies = [ # Optional
-{% if cookiecutter.command_line_interface | lower == 'click' %}  'Click>=8.0,{% endif%}'
+{% if cookiecutter.command_line_interface | lower == 'click' %}  'Click>=8.0',{% endif%}
 ]
 
 # List additional groups of dependencies here (e.g. development
