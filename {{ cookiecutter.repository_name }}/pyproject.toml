@@ -170,8 +170,8 @@ legacy_tox_ini = """
     virtualenv>20.2
   min_version = 4.0
   env_list =
-{% set _min_minor_version = cookiecutter.min_python_version | replace('3.', '') %}
-{% set _max_minor_version = cookiecutter.max_python_version | replace('3.', '') %}
+{% set _min_minor_version = cookiecutter.min_python_version | replace('3.', '') | int %}
+{% set _max_minor_version = cookiecutter.max_python_version | replace('3.', '') | int %}
 {%- for minor_version in range(_min_minor_version, _max_minor_version)%}
     py3{{ minor_version }}
 {%- endfor %}
