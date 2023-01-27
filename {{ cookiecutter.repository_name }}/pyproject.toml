@@ -190,10 +190,10 @@ legacy_tox_ini = """
   description = run unit tests
   deps = 
     pytest
-  commands = pytest tests { posargs }
+  commands = pytest tests
 
 {%- if cookiecutter.use_coverage != "n" %}
-  [coverage]
+  [testenv:coverage]
   description = run test coverage analysis
   deps = 
     pytest
@@ -201,7 +201,7 @@ legacy_tox_ini = """
   commands = 
     pytest --cov --cov-append --cov-report=term-missing
   
-  [coverage:clean]
+  [testenv:clean]
   description = remove coverage reports
   deps = coverage
   skip_install = true
