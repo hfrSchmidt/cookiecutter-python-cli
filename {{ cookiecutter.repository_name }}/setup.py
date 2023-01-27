@@ -52,17 +52,17 @@ setuptools.setup(
 {%- if cookiecutter.open_source_license in license_classifiers %}
         "{{ license_classifiers[cookiecutter.open_source_license] }}",
 {%- endif %}
-{%- for audience_item in coookiecutter.classifiers.audience %}
+{%- for audience_item in cookiecutter.classifiers.audience %}
         "{{ audience_item }}",
 {%- endfor %}
-{%- for os_item in coookiecutter.classifiers.os %}
+{%- for os_item in cookiecutter.classifiers.os %}
         "{{ os_item }}",
 {%- endfor %}
-{%- for topic_item in coookiecutter.classifiers.topic %}
+{%- for topic_item in cookiecutter.classifiers.topic %}
         "{{ topic_item }}",
 {%- endfor %}
         "Programming Language :: Python",
-{%- for py_version_item in coookiecutter.classifiers.python_versions %}
+{%- for py_version_item in cookiecutter.classifiers.python_versions %}
         "Programming Language :: Python :: {{ py_version_item }}",
 {%- endfor %}
     ],
