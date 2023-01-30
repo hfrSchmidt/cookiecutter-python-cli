@@ -199,7 +199,7 @@ legacy_tox_ini = """
     pytest
     pytest-cov
   commands = 
-    pytest --cov --cov-append --cov-report=term-missing
+    pytest --cov {{ cookiecutter.package_name }} --cov-append --cov-report=term-missing
   
   [testenv:clean]
   description = remove coverage reports
